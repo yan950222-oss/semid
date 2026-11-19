@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}{% if edit %}編輯稿件{% else %}建立新稿件{% endif %}{% endblock %}
+{% block content %}
+<div class="main-card" style="max-width: 800px; margin: 0 auto;">
+    <div class="mb-4 pb-2 border-bottom">
+        <h2 class="mb-1">
+            <i class="bi bi-pencil-square text-primary me-2"></i>
+            {% if edit %}編輯稿件{% else %}建立新稿件{% endif %}
+        </h2>
+        <p class="text-muted small mb-0">請填寫完整的稿件資訊，儲存後可隨時在作者首頁進行編輯或送審。</p>
+    </div>
+
+    <form method="post" novalidate>
+        {{ form.hidden_tag() }}
+
+        <div class="mb-3">
+            <label class="form-label" for="category">
+                <i class="bi bi-tag me-1"></i>稿件分類 (Category)
+            </label>
+            {{ form.category(class="form-control" + (" is-invalid" if form.category.errors else ""), placeholder="例如：資訊科學、軟體工程、人工智慧") }}
+            {% for error in form.category.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label" for="title">
+                <i class="bi bi-fonts me-1"></i>稿件篇名 (Title)
+            </label>
+            {{ form.title(class="form-control" + (" is-invalid" if form.title.errors else ""), placeholder="請輸入稿件完整題目") }}
+            {% for error in form.title.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="mb-4">
+            <label class="form-label" for="content">
+                <i class="bi bi-textarea-t me-1"></i>稿件內文 (Content)
+            </label>
+            {{ form.content(class="form-control" + (" is-invalid" if form.content.errors else ""), rows=12, placeholder="請在此輸入或貼上您的稿件內容...") }}
+            {% for error in form.content.errors %}
+                <div class="invalid-feedback">{{ error }}</div>
+            {% endfor %}
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center pt-2">
+            <a href="{{ url_for('author_home') }}" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>取消並返回
+            </a>
+            <button type="submit" class="btn btn-primary-custom px-4">
+                <i class="bi bi-floppy me-1"></i>儲存稿件
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
